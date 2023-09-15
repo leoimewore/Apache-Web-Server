@@ -26,48 +26,48 @@ provider aws {}
 
 
 
-# module "aws-vpc" {
-#     source = "./module/vpc-module"
+module "aws-vpc" {
+    source = "./module/vpc-module"
    
-# }
+}
 
 
-# module "alb" {
-#     source = "./module/elb-module"
+module "alb" {
+    source = "./module/elb-module"
 
-#     public_subnets = module.aws-vpc.public_subnets
-#     vpc-id = module.aws-vpc.vpc_id
-#     private_subnets = module.aws-vpc.private_subnets
+    public_subnets = module.aws-vpc.public_subnets
+    vpc-id = module.aws-vpc.vpc_id
+    private_subnets = module.aws-vpc.private_subnets
    
     
-# }
+}
 
-# module "role" {
-#     source = "./module/ec2-role-module"
-# }
+module "role" {
+    source = "./module/ec2-role-module"
+}
 
-# module "launch_temp" {
-#     source = "./module/launch-module"
+module "launch_temp" {
+    source = "./module/launch-module"
 
-#     depends_on = [ module.aws-vpc.private_subnets ]
+    depends_on = [ module.aws-vpc.private_subnets ]
 
     
-#     vpc-id = module.aws-vpc.vpc_id
+    vpc-id = module.aws-vpc.vpc_id
     
 
-#     private_subnets =module.aws-vpc.private_subnets
-#     lb-arn = module.alb.alb_arn
-#     profile = module.role.instance_profile
-#     tg_arn = module.alb.tg_arn
-#     lb-sg= module.alb.lb-sg
+    private_subnets =module.aws-vpc.private_subnets
+    lb-arn = module.alb.alb_arn
+    profile = module.role.instance_profile
+    tg_arn = module.alb.tg_arn
+    lb-sg= module.alb.lb-sg
     
-# }
+}
 
 
-# module "route_53" {
-#   source = "./module/route53-module"
+module "route_53" {
+  source = "./module/route53-module"
 
-#   lb_name =module.alb.alb_name
-#   hosted_zone =module.alb.alb_hosted_zone
-#   dns_name =module.alb.dns_name
-# }
+  lb_name =module.alb.alb_name
+  hosted_zone =module.alb.alb_hosted_zone
+  dns_name =module.alb.dns_name
+}
